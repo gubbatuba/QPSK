@@ -12,11 +12,12 @@ y_squared = y.^(2);
 y_squared_real = real(y_squared);
 fft_res = fft(y_squared);
 figure;
-plot(fft_res);
+% Take abs because it's complex
+plot(abs(fft_res));
 
 %% Find the peak (location of spike = 2*frequency offset)
-peak1 = max(fft_res);
-peak1_offset = find(fft_res==peak1);
+peak1 = max(abs(fft_res));
+peak1_offset = find(abs(fft_res)==peak1);
 half_offset = 0.5*peak1_offset;
 
 %% Extract original signal
