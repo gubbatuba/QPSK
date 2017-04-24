@@ -1,5 +1,5 @@
-%% Extract the real component
-y = double(Y);
+%% Convert to double
+y = double(Y_packet(1:floor(length(Y_packet)/4)));
 
 
 %% Squared to take away +/- effect
