@@ -1,5 +1,5 @@
 %% Extract the real component
-ii = find(abs(double(Y))>1.5e4);
+ii = find(abs(double(Y))>.5e4);
 y_trim = Y(min(ii):min(ii)+1.01e4);
 y = y_trim;
 % figure;
@@ -25,7 +25,7 @@ powershift = abs(y_shift);
 plot(fshift,powershift);
 [peak1,peak1_ind] = max(powershift);
 peak1_freq = fshift(peak1_ind);
-peak_adjusted =(fshift(2) - fshift(1))/1.5;
+peak_adjusted =(fshift(2) - fshift(1))/3.5;
 t = [0:n-1];
 adjust = exp((peak1_freq+peak_adjusted)*t*j/2)';
 y_adjust = y.*adjust/(sqrt(peak1));
