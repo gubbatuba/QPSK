@@ -27,12 +27,12 @@ powershift = abs(y_shift);
 plot(fshift,powershift);
 [peak1,peak1_ind] = max(powershift);
 peak1_freq = fshift(peak1_ind);
-peak_adjusted = (fshift(10) - fshift(1))/5;
+peak_adjusted = 0;%(fshift(2) - fshift(1))/3.5;
 t = [0:n-1];
 % adjust = exp((peak1_freq+peak_adjusted)*t*j/2)';
-adjust = exp((peak1_freq-peak_adjusted)*t*j/4)';
-% y_adjust = y.*adjust/(sqrt(peak1));
-y_adjust = y.*adjust/(nthroot(peak1,4));
+adjust = exp((peak1_freq+peak_adjusted)*t*j/4)';
+
+% y_adjust = y.*adjust/(nthroot(peak1,4));
 plot(real(y_adjust));
 
 

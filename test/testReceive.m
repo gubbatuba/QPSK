@@ -2,6 +2,7 @@
 % rx = comm.SDRuReceiver('Platform','B210','SerialNum',address,'Gain',20,'CenterFrequency',2.5e9,'SamplesPerFrame',181)
 % rx = comm.SDRuReceiver('Platform','B210','SerialNum',address,'Gain',20,'CenterFrequency',2.5e9,'SamplesPerFrame',181,'EnableBurstMode',true,'NumFramesInBurst',1024)
 % rx = comm.SDRuReceiver('Platform','B210','SerialNum',address,'Gain',20,'CenterFrequency',2.5e9,'SamplesPerFrame',181,'EnableBurstMode',true,'NumFramesInBurst',8192,'DecimationFactor',128,'MasterClockRate',2*32000000)
+% rx = comm.SDRuReceiver('Platform','B210','SerialNum',address,'Gain',20,'CenterFrequency',2.5e9,'SamplesPerFrame',181,'EnableBurstMode',true,'NumFramesInBurst',8192,'DecimationFactor',256,'MasterClockRate',1.5*32000000)
 % tmp = step(rx);
 
 %% OLD CODE
