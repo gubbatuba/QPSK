@@ -28,24 +28,33 @@ plot(fshift,powershift);
 [peak1,peak1_ind] = max(powershift);
 peak1_freq = fshift(peak1_ind);
 
-max_factor = 100;
-search_width = 10;
+max_factor = 500;
+search_width = 100;
 
-y_adjusts = zeros(1,max_factor);
-y_adjusts{max_factor} = [];
-rmss{max_factor} = [];
-vars{max_factor} = [];
-
-
-for adj_factor=1:max_factor
+% y_adjusts = zeros(1,max_factor);
+% y_adjusts{max_factor} = [];
+rmss = zeros(1,max_factor*2);
+vars = zeros(1,max_factor*2);
+counter = 1;
+all_factors = -max_factor:max_factor;
+for adj_factor=all_factors;
     peak_adjusted = (fshift(search_width) - fshift(1))/adj_factor;
     t = [0:n-1];
     adjust = exp((peak1_freq-peak_adjusted)*t*1i/4)';
     y_adjust = y.*adjust/(nthroot(peak1,4));
-    y_adjusts{adj_factor} = y_adjust;
-    rmss{adjust_factor} = rms(real(y_adjust));
-    vars{adj_factor} = var(abs(real(y_adjust)));
+    % y_adjusts{adj_factor} = y_adjust;
+    rmss(counter) = rms(real(y_adjust));
+    vars(counter) = var(abs(real(y_adjust)));
+    counter = counter + 1;
 end
+
+subplot(2,1,1);
+plot(all_factors,rmss);
+title('RMS');
+subplot(2,1,2);
+plot(all_factors,vars);
+title('Variances');
+xlabel('Adjustment Factors');
 
 % plot(real(y_adjust));
 
