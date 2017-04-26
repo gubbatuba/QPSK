@@ -28,19 +28,19 @@ plot(fshift,powershift);
 [peak1,peak1_ind] = max(powershift);
 peak1_freq = fshift(peak1_ind);
 
-max_factor = 500;
-search_width = 100;
-
-% y_adjusts = zeros(1,max_factor);
-% y_adjusts{max_factor} = [];
-rmss = zeros(1,max_factor*2);
-vars = zeros(1,max_factor*2);
+%% SIDDHARTAN'S VERSION MODIFIED
+max_factor = 100;
+search_width = 2;
+rmss = zeros(1,max_factor);
+vars = zeros(1,max_factor);
 counter = 1;
-all_factors = -max_factor:max_factor;
-for adj_factor=all_factors;
-    peak_adjusted = (fshift(search_width) - fshift(1))/adj_factor;
-    t = [0:n-1];
-    adjust = exp((peak1_freq-peak_adjusted)*t*1i/4)';
+
+f_diff = fshift(search_width)-fshift(1); % this is the spacing between successive bins in the FFT 
+f_adjustments = linspace(-f_diff, f_diff, max_factor); % these are the adjustments to check 
+t = [0:n-1];
+
+for k = 1:length(f_adjustments)
+    adjust = exp((peak1_freq+f_adjustments(k))*t*1i/4)';
     y_adjust = y.*adjust/(nthroot(peak1,4));
     % y_adjusts{adj_factor} = y_adjust;
     rmss(counter) = rms(real(y_adjust));
@@ -49,16 +49,47 @@ for adj_factor=all_factors;
 end
 
 subplot(2,1,1);
-plot(all_factors,rmss);
+plot(f_adjustments,rmss);
 title('RMS');
 subplot(2,1,2);
-plot(all_factors,vars);
+plot(f_adjustments,vars);
 title('Variances');
 xlabel('Adjustment Factors');
 
+%% OUR CODE
+
+% max_factor = 500;
+% search_width = 100;
+% rmss = zeros(1,max_factor*2);
+% vars = zeros(1,max_factor*2);
+% counter = 1;
+
+% % y_adjusts = zeros(1,max_factor);
+% % y_adjusts{max_factor} = [];
+% 
+% all_factors = -max_factor:max_factor;
+% for adj_factor=all_factors;
+%     peak_adjusted = (fshift(search_width) - fshift(1))/adj_factor;
+%     t = [0:n-1];
+%     adjust = exp((peak1_freq-peak_adjusted)*t*1i/4)';
+%     y_adjust = y.*adjust/(nthroot(peak1,4));
+%     % y_adjusts{adj_factor} = y_adjust;
+%     rmss(counter) = rms(real(y_adjust));
+%     vars(counter) = var(abs(real(y_adjust)));
+%     counter = counter + 1;
+% end
+
+% subplot(2,1,1);
+% plot(all_factors,rmss);
+% title('RMS');
+% subplot(2,1,2);
+% plot(all_factors,vars);
+% title('Variances');
+% xlabel('Adjustment Factors');
+
 % plot(real(y_adjust));
 
-
+%% OTHER CODE
 % %% Find the peak (location of spike = 2*frequency offset)
 % peak1 = max(abs(fft_res));
 % peak1_offset = find(abs(fft_res)==peak1);
@@ -67,4 +98,3 @@ xlabel('Adjustment Factors');
 % %% Extract original signal
 % sampling_f = 0;
 % y_original = y .* exp(2j*pi*half_offset/sampling_f*(0:length(y)-1));
-    

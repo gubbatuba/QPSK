@@ -21,6 +21,10 @@ plot(abs(fft_res));
 y_shift = fftshift(fft_res);
 fs = 1;
 n = length(y);
+
+%% SIDDHARTAN'
+
+%% OUR CODE
 % fshift = (-n/2:n/2-1)*(fs/n);
 fshift = linspace(-pi,pi*((n-1)/n),n);
 powershift = abs(y_shift);
@@ -28,8 +32,8 @@ plot(fshift,powershift);
 [peak1,peak1_ind] = max(powershift);
 peak1_freq = fshift(peak1_ind);
 
-max_factor = 250;
-search_width = ;
+max_factor = 500;
+search_width = 100;
 
 % y_adjusts = zeros(1,max_factor);
 % y_adjusts{max_factor} = [];
@@ -50,8 +54,11 @@ end
 
 subplot(2,1,1);
 plot(all_factors,rmss);
+title('RMS');
 subplot(2,1,2);
 plot(all_factors,vars);
+title('Variances');
+xlabel('Adjustment Factors');
 
 % plot(real(y_adjust));
 
