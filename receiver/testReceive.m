@@ -28,8 +28,13 @@ plot(fshift,powershift);
 [peak1,peak1_ind] = max(powershift);
 peak1_freq = fshift(peak1_ind);
 
-% search_width = 2;
-adj_factor = -3;
+search_width = 2;
+% adj_factor = 0.5e-5;
+if (adj_hill)
+    adj_factor = adj_hill;
+else
+    adj_factor = 0.5;
+end
 
 peak_adjusted = -(fshift(search_width) - fshift(1))/(adj_factor);
 t = [0:n-1];
@@ -39,7 +44,6 @@ adjust = exp((peak1_freq+peak_adjusted)*t*j/4)';
 y_adjust = y.*adjust/(nthroot(peak1,4));
 plot(real(y_adjust));
 title(strcat('Shift of: ', num2str(peak_adjusted),'RMS = ', num2str(rms(real(y_adjust)))));
-
 
 % %% Find the peak (location of spike = 2*frequency offset)
 % peak1 = max(abs(fft_res));

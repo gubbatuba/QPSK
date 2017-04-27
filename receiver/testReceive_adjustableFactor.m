@@ -42,11 +42,14 @@ t = [0:n-1];
 for k = 1:length(f_adjustments)
     adjust = exp((peak1_freq+f_adjustments(k))*t*1i/4)';
     y_adjust = y.*adjust/(nthroot(peak1,4));
-    % y_adjusts{adj_factor} = y_adjust;
     rmss(counter) = rms(real(y_adjust));
     vars(counter) = var(abs(real(y_adjust)));
     counter = counter + 1;
 end
+
+[min_var, min_var_index] = min(vars);
+
+adj_hill = f_adjustments(min_var_index);
 
 subplot(2,1,1);
 plot(f_adjustments,rmss);
