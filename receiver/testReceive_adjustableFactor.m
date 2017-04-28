@@ -49,7 +49,7 @@ end
 
 [min_var, min_var_index] = min(vars);
 
-adj_hill = f_adjustments(min_var_index);
+adj_hill = f_adjustments(min_var_index); % no clue why I named it adj_hill
 
 subplot(2,1,1);
 plot(f_adjustments,rmss);

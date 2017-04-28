@@ -39,7 +39,8 @@ end
 peak_adjusted = -(fshift(search_width) - fshift(1))/(adj_factor);
 t = [0:n-1];
 % adjust = exp((peak1_freq+peak_adjusted)*t*j/2)';
-adjust = exp((peak1_freq+peak_adjusted)*t*j/4)';
+% adjust = exp((peak1_freq+peak_adjusted)*t*j/4)';
+adjust = exp((peak1_freq+adj_hill)*t*j/4)';
 % y_adjust = y.*adjust/(sqrt(peak1));
 y_adjust = y.*adjust/(nthroot(peak1,4));
 plot(real(y_adjust));
