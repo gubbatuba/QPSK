@@ -1,15 +1,11 @@
 %% Extract the real component
 ii = find(abs(double(Y))>1e4);
 y_trim = Y(min(ii):max(ii));
-y = y_trim;
-% figure;
-% plot(y);
+
 
 %% Squared to take away +/- effect
 %y_squared = y.^(2);
-y_quart = y.^(4);
-% figure;
-% plot(y_squared);
+y_quart = y_trim.^(4);
 
 %% Take the FFT of the squared
 %fft_res = fft(y_squared);
@@ -20,7 +16,7 @@ plot(abs(fft_res));
 
 y_shift = fftshift(fft_res);
 fs = 1;
-n = length(y);
+n = length(y_trim);
 % fshift = (-n/2:n/2-1)*(fs/n);
 fshift = linspace(-pi,pi*((n-1)/n),n);
 powershift = abs(y_shift);
@@ -29,9 +25,9 @@ plot(fshift,powershift);
 peak1_freq = fshift(peak1_ind);
 
 search_width = 2;
-% adj_factor = 0.5e-5;
-if (adj_hill)
-    adj_factor = adj_hill;
+
+if (optimal_adjuster)
+    adj_factor = optimal_adjuster;
 else
     adj_factor = 0.5;
 end
@@ -40,9 +36,9 @@ peak_adjusted = -(fshift(search_width) - fshift(1))/(adj_factor);
 t = [0:n-1];
 % adjust = exp((peak1_freq+peak_adjusted)*t*j/2)';
 % adjust = exp((peak1_freq+peak_adjusted)*t*j/4)';
-adjust = exp((peak1_freq+adj_hill)*t*j/4)';
+adjust = exp((peak1_freq+optimal_adjuster)*t*j/4)';
 % y_adjust = y.*adjust/(sqrt(peak1));
-y_adjust = y.*adjust/(nthroot(peak1,4));
+y_adjust = y_trim.*adjust/(nthroot(peak1,4));
 plot(real(y_adjust));
 title(strcat('Shift of: ', num2str(peak_adjusted),'RMS = ', num2str(rms(real(y_adjust)))));
 
@@ -55,3 +51,8 @@ title(strcat('Shift of: ', num2str(peak_adjusted),'RMS = ', num2str(rms(real(y_a
 % sampling_f = 0;
 % y_original = y .* exp(2j*pi*half_offset/sampling_f*(0:length(y)-1));
     
+
+%% CODE FROM SIDDHARTAN
+% bits_imag_detect = sign(-1*imag(y_adjust));
+% bits_imag_detect = downsample(sign(-1*imag(y_adjust)),1000);
+% plot(real(downsample(y_adjust, 1000)), imag(downsample(y_adjust, 1000)), '*');
