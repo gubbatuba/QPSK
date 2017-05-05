@@ -68,5 +68,3 @@ figure
     adjust = exp((peak1_freq+optimal_adjuster)*t*1i/4)';
     y_adjust = y_trim.*adjust/(nthroot(peak1,4));
     plot(real(y_adjust)); % this is half, and the other half can be viewed using imag(y_adjust)
-
-xlabel('Adjustment Factors');

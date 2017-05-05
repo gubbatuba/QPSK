@@ -1,0 +1,2 @@
+cd "C:\Program Files\UHD\lib\uhd\examples"
+"rx_samples_to_file" --freq 2.5e9 --rate 187500 --args master_clock_rate=48e6 --file "C:\Users\jwei\Documents\Olin\Spring-2017\ADC\FINAL\QPSK\works\rx_data.dat" --type float
